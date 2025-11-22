@@ -21,9 +21,16 @@ export default defineConfig({
     'ky',
     'zod',
   ],
-  banner: {
-    js: '#!/usr/bin/env node',
-  },
   shims: true,
   treeshake: true,
+  onSuccess: async () => {
+    // Add shebang to CLI file after build
+    const fs = await import('fs');
+    const path = await import('path');
+    const cliPath = path.join(process.cwd(), 'dist/cli.js');
+    const content = fs.readFileSync(cliPath, 'utf-8');
+    if (!content.startsWith('#!/usr/bin/env node')) {
+      fs.writeFileSync(cliPath, `#!/usr/bin/env node\n${content}`);
+    }
+  },
 });

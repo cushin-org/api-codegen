@@ -1,5 +1,4 @@
 import { pathToFileURL } from 'url';
-import path from 'path';
 import type { APIConfig } from '../config/schema.js';
 import type { ResolvedConfig } from '../config/index.js';
 import { CodeGenerator } from '../generators/index.js';
