@@ -1,4 +1,4 @@
-# Contributing to @vietbus/api-codegen
+# Contributing to @cushin/api-codegen
 
 Thank you for your interest in contributing! This document provides guidelines for contributing to the project.
 
@@ -72,7 +72,7 @@ dist/                 # Build output
    npm link
 
    # In your test project
-   npm link @vietbus/api-codegen
+   npm link @cushin/api-codegen
    npx api-codegen generate
    ```
 
@@ -147,7 +147,7 @@ Currently manual testing is required. Automated tests coming soon.
 ### Manual Testing
 
 1. Create a test project
-2. Link the package: `npm link @vietbus/api-codegen`
+2. Link the package: `npm link @cushin/api-codegen`
 3. Create a test config
 4. Run: `npx api-codegen generate`
 5. Verify generated code

@@ -27,7 +27,7 @@ npm link
 
 In your test project:
 ```bash
-npm link @vietbus/api-codegen
+npm link @cushin/api-codegen
 ```
 
 Test the CLI:
@@ -45,7 +45,7 @@ npm login
 
 For scoped packages, ensure your organization exists:
 ```bash
-npm org ls @vietbus
+npm org ls @cushin
 ```
 
 Publish:
@@ -61,10 +61,10 @@ npm publish --access public
 
 ```bash
 # View package info
-npm view @vietbus/api-codegen
+npm view @cushin/api-codegen
 
 # Test installation
-npm install @vietbus/api-codegen
+npm install @cushin/api-codegen
 ```
 
 ## Version Management

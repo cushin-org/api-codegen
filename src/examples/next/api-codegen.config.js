@@ -1,4 +1,4 @@
-/** @type {import('@vietbus/api-codegen').UserConfig} */
+/** @type {import('@cushin/api-codegen').UserConfig} */
 export default {
   // Provider type
   provider: 'nextjs',

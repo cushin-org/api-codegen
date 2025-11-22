@@ -1,4 +1,4 @@
-# @vietbus/api-codegen
+# @cushin/api-codegen
 
 Type-safe API client generator for React/Next.js applications with automatic hooks and server actions generation.
 
@@ -14,11 +14,11 @@ Type-safe API client generator for React/Next.js applications with automatic hoo
 ## Installation
 
 ```bash
-npm install @vietbus/api-codegen ky zod
+npm install @cushin/api-codegen ky zod
 # or
-pnpm add @vietbus/api-codegen ky zod
+pnpm add @cushin/api-codegen ky zod
 # or
-yarn add @vietbus/api-codegen ky zod
+yarn add @cushin/api-codegen ky zod
 ```
 
 For React Query support (client-side):
@@ -39,7 +39,7 @@ npx api-codegen init --provider nextjs
 This creates `api-codegen.config.js`:
 
 ```js
-/** @type {import('@vietbus/api-codegen').UserConfig} */
+/** @type {import('@cushin/api-codegen').UserConfig} */
 export default {
   provider: 'vite',
   endpoints: './lib/api/config/endpoints.ts',
@@ -57,7 +57,7 @@ Create your endpoints configuration file:
 ```typescript
 // lib/api/config/endpoints.ts
 import { z } from 'zod';
-import { defineConfig, defineEndpoint } from '@vietbus/api-codegen';
+import { defineConfig, defineEndpoint } from '@cushin/api-codegen';
 
 // Define your schemas
 const UserSchema = z.object({
@@ -284,7 +284,7 @@ export function UserForm() {
 ### Full Configuration Options
 
 ```typescript
-/** @type {import('@vietbus/api-codegen').UserConfig} */
+/** @type {import('@cushin/api-codegen').UserConfig} */
 export default {
   // Required: Provider type
   provider: 'vite' | 'nextjs',

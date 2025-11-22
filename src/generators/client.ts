@@ -31,8 +31,8 @@ export class ClientGenerator extends BaseGenerator {
     const useClientDirective = this.context.config.options?.useClientDirective ?? true;
     
     return `${useClientDirective ? "'use client';\n" : ''}
-import { createAPIClient } from '@vietbus/api-codegen/client';
-import type { AuthCallbacks } from '@vietbus/api-codegen/client';
+import { createAPIClient } from '@cushin/api-codegen/client';
+import type { AuthCallbacks } from '@cushin/api-codegen/client';
 import { apiConfig } from '../config/endpoints';
 import type { APIEndpoints } from './types';
 
@@ -99,7 +99,7 @@ export type { AuthCallbacks };
   }
 
   private generateServerClientContent(): string {
-    return `import { createAPIClient } from '@vietbus/api-codegen/client';
+    return `import { createAPIClient } from '@cushin/api-codegen/client';
 import { apiConfig } from '../config/endpoints';
 import type { APIEndpoints } from './types';
 

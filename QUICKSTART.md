@@ -1,11 +1,11 @@
 # Quick Start Guide
 
-Get started with `@vietbus/api-codegen` in 5 minutes!
+Get started with `@cushin/api-codegen` in 5 minutes!
 
 ## Installation
 
 ```bash
-npm install @vietbus/api-codegen ky zod @tanstack/react-query
+npm install @cushin/api-codegen ky zod @tanstack/react-query
 ```
 
 ## Step 1: Initialize Config
@@ -33,7 +33,7 @@ Create `lib/api/config/endpoints.ts`:
 
 ```typescript
 import { z } from 'zod';
-import { defineConfig, defineEndpoint } from '@vietbus/api-codegen';
+import { defineConfig, defineEndpoint } from '@cushin/api-codegen';
 
 const TodoSchema = z.object({
   id: z.string(),
@@ -161,11 +161,11 @@ You now have:
 
 ## Common Issues
 
-### "Cannot find module '@vietbus/api-codegen'"
+### "Cannot find module '@cushin/api-codegen'"
 
 Make sure you've installed the package:
 ```bash
-npm install @vietbus/api-codegen
+npm install @cushin/api-codegen
 ```
 
 ### Generated files not found

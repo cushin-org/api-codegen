@@ -180,7 +180,7 @@ program
   });
 
 function generateConfigTemplate(provider: string): string {
-  return `/** @type {import('@vietbus/api-codegen').UserConfig} */
+  return `/** @type {import('@cushin/api-codegen').UserConfig} */
 export default {
   // Provider: 'vite' or 'nextjs'
   provider: '${provider}',
