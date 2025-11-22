@@ -65,8 +65,6 @@ export type ActionResult<T> =
           .join('\n')
       : '    // No automatic revalidations';
 
-    const clientCall = this.generateClientCall(name, signature.hasParams, signature.hasBody);
-
     return `/**
  * ${endpoint.description || `Server action for ${name}`}
  * @tags ${endpoint.tags?.join(', ') || 'none'}
@@ -89,21 +87,5 @@ ${revalidateStatements}
     };
   }
 }`;
-  }
-
-  private generateClientCall(
-    name: string,
-    hasParams: boolean,
-    hasBody: boolean,
-  ): string {
-    if (hasParams && hasBody) {
-      return `serverClient.${name}(input.params, input.body)`;
-    } else if (hasParams) {
-      return `serverClient.${name}(params)`;
-    } else if (hasBody) {
-      return `serverClient.${name}(body)`;
-    } else {
-      return `serverClient.${name}()`;
-    }
   }
 }

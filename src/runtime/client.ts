@@ -1,5 +1,4 @@
 import ky, { HTTPError } from 'ky';
-import type { z } from 'zod';
 import type { APIConfig, APIEndpoint } from '../config/schema.js';
 
 export interface AuthTokens {
@@ -37,11 +36,67 @@ export class APIClient {
   private client: typeof ky;
   private isRefreshing = false;
   private refreshPromise: Promise<void> | null = null;
+  private hooks: any;
 
   constructor(
     private config: APIConfig,
     private authCallbacks?: AuthCallbacks,
   ) {
+    this.hooks = {
+      beforeRequest: [
+        (request: Request) => {
+          const tokens = this.authCallbacks?.getTokens();
+          if (tokens?.accessToken) {
+            request.headers.set(
+              'Authorization',
+              `Bearer ${tokens.accessToken}`,
+            );
+          }
+        },
+      ],
+      beforeRetry: [
+        async ({ request, error, retryCount }: any) => {
+          if (error instanceof HTTPError && error.response.status === 401) {
+            if (retryCount === 1 && this.authCallbacks) {
+              try {
+                await this.refreshTokens();
+                const tokens = this.authCallbacks.getTokens();
+                if (tokens?.accessToken) {
+                  request.headers.set(
+                    'Authorization',
+                    `Bearer ${tokens.accessToken}`,
+                  );
+                }
+              } catch (refreshError) {
+                this.authCallbacks.clearTokens();
+                this.authCallbacks.onAuthError?.();
+                throw new AuthError();
+              }
+            } else {
+              this.authCallbacks?.clearTokens();
+              this.authCallbacks?.onAuthError?.();
+              throw new AuthError();
+            }
+          }
+        },
+      ],
+      beforeError: [
+        async (error: any) => {
+          const { response } = error;
+          if (response?.body) {
+            try {
+              const body = await response.json();
+              error.message =
+                (body as Error).message || `HTTP ${response.status}`;
+            } catch {
+              // Keep original message
+            }
+          }
+          return error;
+        },
+      ],
+    };
+
     this.client = ky.create({
       prefixUrl: this.config.baseUrl,
       headers: {
@@ -52,60 +107,7 @@ export class APIClient {
         methods: ['get', 'post', 'put', 'delete', 'patch'],
         statusCodes: [401],
       },
-      hooks: {
-        beforeRequest: [
-          (request) => {
-            const tokens = this.authCallbacks?.getTokens();
-            if (tokens?.accessToken) {
-              request.headers.set(
-                'Authorization',
-                `Bearer ${tokens.accessToken}`,
-              );
-            }
-          },
-        ],
-        beforeRetry: [
-          async ({ request, error, retryCount }) => {
-            if (error instanceof HTTPError && error.response.status === 401) {
-              if (retryCount === 1 && this.authCallbacks) {
-                try {
-                  await this.refreshTokens();
-                  const tokens = this.authCallbacks.getTokens();
-                  if (tokens?.accessToken) {
-                    request.headers.set(
-                      'Authorization',
-                      `Bearer ${tokens.accessToken}`,
-                    );
-                  }
-                } catch (refreshError) {
-                  this.authCallbacks.clearTokens();
-                  this.authCallbacks.onAuthError?.();
-                  throw new AuthError();
-                }
-              } else {
-                this.authCallbacks?.clearTokens();
-                this.authCallbacks?.onAuthError?.();
-                throw new AuthError();
-              }
-            }
-          },
-        ],
-        beforeError: [
-          async (error) => {
-            const { response } = error;
-            if (response?.body) {
-              try {
-                const body = await response.json();
-                error.message =
-                  (body as Error).message || `HTTP ${response.status}`;
-              } catch {
-                // Keep original message
-              }
-            }
-            return error;
-          },
-        ],
-      },
+      hooks: this.hooks,
     });
   }
 
@@ -176,7 +178,7 @@ export class APIClient {
         methods: ['get', 'post', 'put', 'delete', 'patch'],
         statusCodes: [401],
       },
-      hooks: this.client.extend().defaults.hooks,
+      hooks: this.hooks,
     });
   }
 
