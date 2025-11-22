@@ -1,0 +1,36 @@
+# Source files
+src/
+examples/
+*.config.ts
+*.config.js
+
+# Development files
+.github/
+.vscode/
+.idea/
+tests/
+coverage/
+
+# Config files
+tsconfig.json
+vitest.config.ts
+.eslintrc.js
+.prettierrc
+
+# Docs (keep README.md)
+docs/
+*.md
+!README.md
+!CHANGELOG.md
+!LICENSE
+
+# Build artifacts
+*.tsbuildinfo
+.turbo/
+.cache/
+
+# Misc
+.DS_Store
+*.log
+.env*
+!.env.example
