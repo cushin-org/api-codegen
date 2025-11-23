@@ -83,6 +83,7 @@
     "conventional-changelog-angular": "^8.1.0",
     "cosmiconfig": "^9.0.0",
     "fast-glob": "^3.3.2",
+    "jiti": "^2.6.1",
     "ora": "^8.0.0"
   },
   "devDependencies": {
