@@ -25,9 +25,12 @@ export class CodegenCore {
 
   private async loadAPIConfig(): Promise<APIConfig> {
     try {
-      // Use jiti to load TypeScript files
+      // Use jiti to load TypeScript/JavaScript files
       const jiti = createJiti(fileURLToPath(import.meta.url), {
         interopDefault: true,
+        // Set module type to ESM to better handle generic syntax
+        moduleCache: false,
+        tryNative: true,
       });
 
       const module = (await jiti.import(this.config.endpointsPath)) as any;

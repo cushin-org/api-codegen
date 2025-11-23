@@ -29,10 +29,10 @@ export class ClientGenerator extends BaseGenerator {
 
   private generateClientContent(): string {
     const useClientDirective = this.context.config.options?.useClientDirective ?? true;
-    
+
     return `${useClientDirective ? "'use client';\n" : ''}
-import { createAPIClient } from '@cushin/api-codegen/client';
-import type { AuthCallbacks } from '@cushin/api-codegen/client';
+import { createAPIClient } from './runtime';
+import type { AuthCallbacks } from './runtime';
 import { apiConfig } from '../config/endpoints';
 import type { APIEndpoints } from './types';
 
@@ -99,7 +99,7 @@ export type { AuthCallbacks };
   }
 
   private generateServerClientContent(): string {
-    return `import { createAPIClient } from '@cushin/api-codegen/client';
+    return `import { createAPIClient } from './runtime';
 import { apiConfig } from '../config/endpoints';
 import type { APIEndpoints } from './types';
 

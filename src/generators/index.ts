@@ -3,6 +3,7 @@ import { ServerActionsGenerator } from './actions.js';
 import { ServerQueriesGenerator } from './queries.js';
 import { TypesGenerator } from './types.js';
 import { ClientGenerator } from './client.js';
+import { RuntimeGenerator } from './runtime.js';
 import type { GeneratorContext } from './base.js';
 
 export class CodeGenerator {
@@ -19,7 +20,8 @@ export class CodeGenerator {
   private getGenerators() {
     const generators: Array<any> = [];
 
-    // Always generate types
+    // Always generate runtime and types
+    generators.push(new RuntimeGenerator(this.context));
     generators.push(new TypesGenerator(this.context));
 
     // Generate client if enabled

@@ -17,8 +17,8 @@ export class TypesGenerator extends BaseGenerator {
 
 import type { z } from 'zod';
 
-// Re-export endpoint configuration types
-export type { APIConfig, APIEndpoint, HTTPMethod } from '@vietbus/api-codegen/config';
+// Re-export runtime types for convenience
+export type { APIConfig, APIEndpoint, HTTPMethod, AuthCallbacks, AuthTokens } from './runtime';
 
 /**
  * Type helper to extract params schema from an endpoint
@@ -50,7 +50,7 @@ export type ExtractResponse<T> = T extends { response: infer R extends z.ZodType
 
 /**
  * Import your API config to get typed endpoints
- * 
+ *
  * @example
  * import { apiConfig } from './config/endpoints';
  * export type APIEndpoints = typeof apiConfig.endpoints;
