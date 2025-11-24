@@ -6,7 +6,7 @@ import type { APIEndpoint } from "../config/schema.js";
 export class PrefetchGenerator extends BaseGenerator {
   async generate(): Promise<void> {
     const content = this.generateContent();
-    const outputPath = path.join(this.context.config.outputDir, "hooks.ts");
+    const outputPath = path.join(this.context.config.outputDir, "prefetchs.ts");
 
     await fs.mkdir(path.dirname(outputPath), { recursive: true });
     await fs.writeFile(outputPath, content, "utf-8");
