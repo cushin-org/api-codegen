@@ -6,6 +6,7 @@ import { ClientGenerator } from "./client.js";
 import type { GeneratorContext } from "./base.js";
 import { QueryKeysGenerator } from "./query-keys.js";
 import { QueryOptionsGenerator } from "./query-options.js";
+import { PrefetchGenerator } from "./prefetch.js";
 
 export class CodeGenerator {
   constructor(private context: GeneratorContext) {}
@@ -34,6 +35,10 @@ export class CodeGenerator {
       generators.push(new QueryKeysGenerator(this.context));
       generators.push(new QueryOptionsGenerator(this.context));
       generators.push(new HooksGenerator(this.context));
+    }
+
+    if (this.context.config.generatePrefetch) {
+      generators.push(new PrefetchGenerator(this.context));
     }
 
     // Generate server actions if enabled (Next.js only)

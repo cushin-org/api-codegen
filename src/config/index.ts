@@ -1,6 +1,6 @@
-import { cosmiconfig } from 'cosmiconfig';
-import path from 'path';
-import type { APIConfig } from './schema.js';
+import { cosmiconfig } from "cosmiconfig";
+import path from "path";
+import type { APIConfig } from "./schema.js";
 
 export interface UserConfig {
   /**
@@ -16,7 +16,7 @@ export interface UserConfig {
   /**
    * Provider type: 'vite' | 'nextjs'
    */
-  provider: 'vite' | 'nextjs';
+  provider: "vite" | "nextjs";
 
   /**
    * Output directory for generated files
@@ -46,6 +46,12 @@ export interface UserConfig {
    * @default true
    */
   generateClient?: boolean;
+
+  /**
+   * Whether to generate prefetch utilities
+   * @default true
+   */
+  generatePrefetch?: boolean;
 
   /**
    * Custom templates directory
@@ -85,15 +91,15 @@ export interface ResolvedConfig extends UserConfig {
   apiConfig?: APIConfig;
 }
 
-const explorer = cosmiconfig('api-codegen', {
+const explorer = cosmiconfig("api-codegen", {
   searchPlaces: [
-    'api-codegen.config.js',
-    'api-codegen.config.mjs',
-    'api-codegen.config.ts',
-    'api-codegen.config.json',
-    '.api-codegenrc',
-    '.api-codegenrc.json',
-    '.api-codegenrc.js',
+    "api-codegen.config.js",
+    "api-codegen.config.mjs",
+    "api-codegen.config.ts",
+    "api-codegen.config.json",
+    ".api-codegenrc",
+    ".api-codegenrc.json",
+    ".api-codegenrc.js",
   ],
 });
 
@@ -119,12 +125,11 @@ export async function loadConfig(
     // Set defaults based on provider
     const generateHooks = userConfig.generateHooks ?? true;
     const generateServerActions =
-      userConfig.generateServerActions ??
-      (userConfig.provider === 'nextjs');
+      userConfig.generateServerActions ?? userConfig.provider === "nextjs";
     const generateServerQueries =
-      userConfig.generateServerQueries ??
-      (userConfig.provider === 'nextjs');
+      userConfig.generateServerQueries ?? userConfig.provider === "nextjs";
     const generateClient = userConfig.generateClient ?? true;
+    const generatePrefetch = userConfig.generatePrefetch ?? true;
 
     return {
       ...userConfig,
@@ -135,6 +140,7 @@ export async function loadConfig(
       generateServerActions,
       generateServerQueries,
       generateClient,
+      generatePrefetch,
     };
   } catch (error) {
     throw new Error(
@@ -152,11 +158,15 @@ export function validateConfig(config: UserConfig): void {
   }
 
   if (!config.provider) {
-    throw new Error('Config error: "provider" must be specified (vite or nextjs)');
+    throw new Error(
+      'Config error: "provider" must be specified (vite or nextjs)',
+    );
   }
 
-  if (!['vite', 'nextjs'].includes(config.provider)) {
-    throw new Error('Config error: "provider" must be either "vite" or "nextjs"');
+  if (!["vite", "nextjs"].includes(config.provider)) {
+    throw new Error(
+      'Config error: "provider" must be either "vite" or "nextjs"',
+    );
   }
 
   if (!config.output) {
